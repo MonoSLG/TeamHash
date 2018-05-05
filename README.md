@@ -1,1 +1,3 @@
-# TeamHash
+# loginApp
+
+a [Sails](http://sailsjs.org) application
