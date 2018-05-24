@@ -1,11 +1,24 @@
 
 module.exports = {
 	attributes: {
-		name: {
+		grade: {
+			type: 'integer',
+			required: true
+		},
+		letter: {
 			type: 'string',
 			required: true
 		},
-		toJSON: function() {
+		year: {
+			type: 'integer',
+			required: true
+		},
+		homeworks: {
+			collecion: 'gen_homework',
+			via: 'courses',
+		},
+
+		toJSON: function () {
 			let obj = this.toObject();
 			delete obj.createdAt;
 			delete obj.updatedAt;

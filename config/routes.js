@@ -75,12 +75,15 @@ module.exports.routes = {
   '/editCourse/:id':'AppController.editCourse',
   //-------------------------------
   //
- '/newSubject': 'AppController.newSubject',
+  '/newSubject': 'AppController.newSubject',
   '/listSubjects': 'AppController.listSubjects',
   '/editSubject/:id':'AppController.editSubject',
   //-------------------------------
   //
-
+  '/newHomework': 'AppController.newHomework',
+  '/assignHomework': 'AppController.assignHomework'
+ // '/listSubjects': 'AppController.listSubjects',
+  //'/editSubject/:id':'AppController.editSubject',
 
 
 

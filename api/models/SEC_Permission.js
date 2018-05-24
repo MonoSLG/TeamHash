@@ -30,14 +30,12 @@ module.exports = {
 			collection: 'sec_role',
 			via: 'permissions'
 		},
-		toJSON: function() {
+		toJSON: function () {
 			let obj = this.toObject();
 			delete obj.createdAt;
 			delete obj.updatedAt;
 			return obj;
 		}
-
 	}
-
 };
 

@@ -1,0 +1,97 @@
+<div class="col-md-6 col-md-offset-3">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<h2>
+				<b>Sergio Posada Urrea</b>
+			</h2>
+		</div>
+	</div>
+	<form id="login-form" action="/gen_Homework/assign" method="post">
+		<div class="form-group">
+			<select name="subject" id="subject" class="form-control">
+				<% sub.forEach(function(item) { %>
+					<option value="">
+						<%= item.name %>
+					</option>
+					<% }); %>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<select name="grade" id="grade" class="form-control">
+				<% for(var i=1; i < 12; i++) { %>
+					<option value="">
+						<%= i %>
+					</option>
+					<% } %>
+			</select>
+		</div>
+		<div class="form-group">
+			<select name="subject" id="subject" class="form-control">
+				<% top.forEach(function(item) { %>
+					<option value="">
+						<%= item.name %>
+					</option>
+					<% }); %>
+			</select>
+		</div>
+		<div class="form-group">
+			<input type="email" name="email" id="email" class="form-control" placeholder="Título">
+		</div>
+		<div class="form-group">
+			<input type="text" name="document" id="document" class="form-control" placeholder="Logros">
+		</div>
+		<div class="form-group">
+			<input type="text" name="address" id="address" class="form-control" placeholder="Descripción">
+		</div>
+		<div class="form-group">
+			<div id="list"></div>
+			<script>
+				$(document).ready(function () {
+					function handleFileSelect(evt) {
+						var files = evt.target.files; // FileList object
+						// files is a FileList of File objects. List some properties.
+						var output = [];
+						for (var i = 0, f; f = files[i]; i++) {
+							output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+								f.size, ' bytes, last modified: ',
+								f.lastModifiedDate.toLocaleDateString(), '</li>');
+						}
+						document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+					}
+					document.getElementById('studyFiles').addEventListener('change', handleFileSelect, false);
+
+					var saveData = (function () {
+						var a = document.createElement("a");
+						document.body.appendChild(a);
+						a.style = "display: none";
+						return function () {
+							var blob = new File(["HOLA Mundo!"], "holamundo.txt");
+							url = window.URL.createObjectURL(blob);
+							a.href = url;
+							a.download = blob.name;
+							a.click();
+							window.URL.revokeObjectURL(url);
+						};
+					}());
+
+					saveData();
+
+
+				});
+
+
+
+			</script>
+
+			<input type="file" id="studyFiles" name="studyFiles[]" multiple class="form-control" placeholder="Archivos">
+		</div>
+		<br>
+		<div class="col-md-3 col-md-offset-3">
+			<button type="submit" class="btn btn-primary">Crear</button>
+		</div>
+		<div class="col-md-3 ">
+			<button type="submit" class="btn btn-primary">Asignar</button>
+		</div>
+	</form>
+</div>
