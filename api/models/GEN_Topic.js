@@ -1,24 +1,21 @@
 
 module.exports = {
 	attributes: {
-		name: {
+		title: {
 			type: 'string',
 			required: true
-		},
-		code: {
-			type: 'string',
-			required: true
-		},
-		description: {
+        },
+        description: {
 			type: 'string',
 			required: false
-		},
-		topics: {
-			collection: 'gen_topic',
-			via: 'subject',
-			dominant: true,
-			defaultsTo: []
-		},
+        },
+        subject: {
+            model: 'gen_subject',
+        },
+        homeworks:{
+            collection: 'gen_homework'
+            //posiblemente falte via
+        },
 		toJSON: function() {
 			let obj = this.toObject();
 			delete obj.createdAt;
