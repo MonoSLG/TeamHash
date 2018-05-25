@@ -96,9 +96,28 @@ module.exports = {
 			return res.redirect('/');
 		}
 	},
-
-
-
+	//Homeworks controllers
+	listHomeworks: async function(req, res){
+		let Homeworks = await GEN_Homework.find().populate('topic');
+		for (let i=0; i<Homeworks.length; i++){
+			const item = Homeworks[i]
+			const subject = await GEN_Subject.findOne(item.topic.subject);
+			Homeworks[i]['subject'] = subject;
+		}
+		return res.view('App/GEN_Homework/listHomeworks', {data: Homeworks})
+	},
+	viewHomework: async function(req, res){
+		try {
+			const id = req.param('id');
+			let data = await GEN_Homework.findOne(id).populate('topic');
+			const subject = await GEN_Subject.findOne(data.topic.subject);
+			data['subject'] = subject;
+			return res.view('App/GEN_Homework/viewHomework', {data: data});
+		}catch (err){
+			await SEC_FlashService.error(req, err.message);
+			return res.redirect('/');
+		}
+	},
 
 
 };
