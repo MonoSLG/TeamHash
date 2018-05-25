@@ -1,0 +1,40 @@
+<div class="col-md-6">
+	<div class="row">
+		<div class="col-md-6">
+			<h2>New User</h2>
+		</div>
+	</div>
+	<form id="login-form" action="/sec_user/add" method="post">
+		<div class="form-group">
+			<input type="text" name="userName" id="userName" class="form-control" placeholder="Username">
+		</div>
+		<div class="form-group">
+			<input type="password" name="password" id="password" class="form-control" placeholder="Password" autocomplete="off">
+		</div>
+		<br>
+		<div class="form-group">
+			<input type="text" name="name" id="name" class="form-control" placeholder="Name">
+		</div>
+		<div class="form-group">
+			<input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
+		</div>
+		<div class="form-group">
+			<input type="text" name="phone" id="phone" class="form-control" placeholder="Phone">
+		</div>
+		<div class="form-group">
+			<input type="email" name="email" id="email" class="form-control" placeholder="Email">
+		</div>
+		<br>
+		<h4>Roles</h4>
+		<br>
+		<% for(let i=0, len=data.length; i < len; i++) { %>
+			<% item = data[i] %>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" name="roles" value="<%= item.id %>" id="role-<%= i %>">
+				<label class="form-check-label" for="role-<%= i %>"><%= item.name %></label>
+			</div>
+		<% } %>
+		<br>
+		<button type="submit" class="btn btn-primary">Save</button>
+	</form>
+</div>
