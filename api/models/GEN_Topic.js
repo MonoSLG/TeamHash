@@ -1,26 +1,22 @@
-/**
- * GEN_Topic.js
- *
- * @description :: A model definition.  Represents a database table/collection/etc.
- * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
- */
 
 module.exports = {
-
 	attributes: {
-		name: {
+		title: {
 			type: 'string',
 			required: true
-		},
-		description: {
+        },
+        description: {
 			type: 'string',
-			required: true
-		},
-		subject: {
-			model: 'gen_subject',
-			required: true
-		},
-		toJSON: function () {
+			required: false
+        },
+        subject: {
+            model: 'gen_subject',
+        },
+        homeworks:{
+            collection: 'gen_homework'
+            //posiblemente falte via
+        },
+		toJSON: function() {
 			let obj = this.toObject();
 			delete obj.createdAt;
 			delete obj.updatedAt;
@@ -28,4 +24,3 @@ module.exports = {
 		}
 	}
 };
-

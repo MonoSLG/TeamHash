@@ -13,6 +13,12 @@ module.exports = {
 			type: 'string',
 			required: false
 		},
+		topics: {
+			collection: 'gen_topic',
+			via: 'subject',
+			dominant: true,
+			defaultsTo: []
+		},
 		toJSON: function() {
 			let obj = this.toObject();
 			delete obj.createdAt;
