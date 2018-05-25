@@ -9,6 +9,7 @@ module.exports = {
 			type: 'string',
 			required: false
         },
+<<<<<<< HEAD
         grade:{
             type: 'integer',
 			required: true
@@ -16,6 +17,11 @@ module.exports = {
         achievement: {
 			type: 'string',
 			required: false
+=======
+        achievement: {
+            type: 'string',
+            required: false
+>>>>>>> ff46c65191565c3b9a6ecc76803b9d392115f0f6
         },
         topic:{
             model: 'gen_topic'
@@ -27,4 +33,8 @@ module.exports = {
 			return obj;
 		}
 	}
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> ff46c65191565c3b9a6ecc76803b9d392115f0f6
