@@ -17,10 +17,6 @@ module.exports = {
 			type: 'string',
 			required: false
         },
-        studyMaterials:{
-            type: 'json',
-            required: false
-        },
         topic:{
             model: 'gen_topic'
         },

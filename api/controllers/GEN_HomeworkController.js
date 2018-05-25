@@ -1,9 +1,10 @@
 module.exports = {
 	assign: async function (req, res, next) {
 		try {
+			return res.send(req.param);
 
 			//SEC_FlashService.success(req, 'Course Created Successfully!');
-			return res.redirect('/assignHomework');
+			//return res.redirect('/assignHomework');
 
 		} catch (err) {
 			await SEC_FlashService.error(req, err.message);
@@ -19,18 +20,15 @@ module.exports = {
 			const homework_temp = {
 				title: req.param('title'),
 				description: req.param('description'),
+				grade: req.param('grade'),
 				achievement: req.param('achievement'),
-				studyMaterials: req.param('studyMaterials'),
 				topic: req.param('topic')
 			};
-			homework_temp.studyMaterials.forEach(element => {
-				
-				console.log(typeof(element));
-			});
+			
 
 			let data = await GEN_Homework.create(homework_temp);
 			if (data) {
-				SEC_FlashService.success(req, 'Menu Created Successfully!');
+				SEC_FlashService.success(req, 'Homework Created Successfully!');
 				return res.redirect('/listMenus');
 			}
 		} catch (err) {

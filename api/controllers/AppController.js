@@ -117,13 +117,13 @@ module.exports = {
 	assignHomework: async function (req, res) {
 
 		try {
-			const subjects = await GEN_Subject.find();
-			const topics = await GEN_Topic.find();
+			const coures = await GEN_Course.find();
+			const homeworks = await GEN_Homework.find();
 			
 			return res.view('App/GEN_Homework/assignHomework',
 				{
-					sub: subjects,
-					top: topics
+					cou: coures,
+					hom: homeworks
 				}
 			);
 		} catch (err) {
