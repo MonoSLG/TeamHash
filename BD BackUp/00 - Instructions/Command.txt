@@ -1,0 +1,3 @@
+cd C:\Program Files\MongoDB\Server\3.6\bin
+
+.\mongorestore.exe "C:\Users\Agustin\Desktop\Escritorio\LoginSails\Software III - Project\BD BackUp\dump05-05-2018"

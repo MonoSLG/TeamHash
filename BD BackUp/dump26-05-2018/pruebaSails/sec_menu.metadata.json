@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"pruebaSails.sec_menu"},{"v":2,"unique":true,"key":{"link":1},"name":"link_1","ns":"pruebaSails.sec_menu","sparse":true}],"uuid":"3883efa83ac94af0962d4935b342f10b"}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%=typeof title == 'undefined' ? 'New Sails App' : title%></title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+  <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="/css/style.css" rel="stylesheet">
+
+  <!-- JavaScript Libraries -->
+  <script src="/lib/jquery/jquery.min.js"></script>
+  <script src="/lib/jquery/jquery-migrate.min.js"></script>
+  <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/lib/easing/easing.min.js"></script>
+  <script src="/lib/superfish/hoverIntent.js"></script>
+  <script src="/lib/superfish/superfish.min.js"></script>
+  <script src="/lib/wow/wow.min.js"></script>
+  <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="/lib/magnific-popup/magnific-popup.min.js"></script>
+  <script src="/lib/sticky/sticky.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
+  <!-- Contact Form JavaScript File -->
+
+  <!-- Template Main Javascript File -->
+  <script src="/js/main.js"></script>
+
+  <!--
+  <link href="http://www.jerrylow.com/basictable/basictable.css" rel="stylesheet">
+  <script src="http://www.jerrylow.com/basictable/jquery.basictable.min.js"></script>
+  -->
+
+  <!-- =======================================================
+    Theme Name: Reveal
+    Theme URL: https://bootstrapmade.com/reveal-bootstrap-corporate-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+
+  <!--DATATABLE-->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
+
+</head>
+
+<body id="body">
+
+  <header id="header">
+
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <h2>Titulo</h2>
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          
+          <% allowedMenus.forEach(function(item) { %>
+            <% if(item.showInNav){ %>
+              <% if(item.sonsMenus && item.sonsMenus.length == 0 && item.isRootMenu){ %>
+                <li><a href="<%= item.link %>"><%= item.text %></a></li>
+              <% }else if(item.isRootMenu){ %>
+                <li class="menu-has-children"><a href="<%= item.link %>"><%= item.text %></a>
+                  <ul>
+                    <% item.sonsMenus.forEach(function(son) { %>
+                      <% if(son.showInNav && !son.isRootMenu){ %>
+                        <li><a href="<%= son.link %>"><%= son.text %></a></li>
+                      <% } %>
+                    <% }); %>
+                  </ul>
+              <% } %>
+            <% } %>
+          <% }); %>
+
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </header><!-- #header -->
+
+  </Br>
+
+  <div class=container-fluid>
+      <% if (typeof messages !== 'undefined' && messages) { %>
+        <% if (messages['error'].length > 0) { %>
+          <div id="alertDanger" class="alert alert-danger">
+            <% messages['error'].forEach(function(message) { %>
+              <%= message %>
+            <br>
+            <% }); %>
+          </div>
+          <br>
+        <% } %>
+        <% if (messages['warning'].length > 0) { %>
+          <div id="alertWarning" class="alert alert-warning">
+            <% messages['warning'].forEach(function(message) { %>
+              <%= message %>
+            <br>
+            <% }); %>
+          </div>
+          <br>
+          <% } %>
+        <% if (messages['success'].length > 0) { %>
+          <div id="alertSuccess" class="alert alert-success">
+            <% messages['success'].forEach(function(message) { %>
+              <%= message %>
+            <br>
+            <% }); %>
+          </div>
+          <br>
+        <% } %>
+      <% } %>
+    </div>
+
+  <main id="main" class="container-fluid">
+    <%- body %>
+  </main>
+
+  
+
+  <footer>
+    <script src="/js/dependencies/sails.io.js"></script>
+
+    
+
+    <script>
+      $(document).ready(function() {
+        
+        $('#table').dataTable( {
+          "responsive": true,
+          "ordering":false,
+          "lengthChange":false,
+          "paging":false,
+          "info":false
+        });
+        
+        $("#alertDanger").fadeOut(10000);
+        $("#alertWarning").fadeOut(10000);
+        $("#alertSuccess").fadeOut(10000);
+      });
+    </script>
+
+  </footer>
+
+</body>
+</html>
