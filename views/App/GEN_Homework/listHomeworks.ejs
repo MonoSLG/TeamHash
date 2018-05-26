@@ -7,16 +7,10 @@
 	<table class="table table-striped table-bordered" id="table">
 		<thead>
 			<tr>
-<<<<<<< HEAD
 				<th>Title</th>
 				<th>Subject</th>
 				<th>Topic</th>
 				<th>Grade</th>				
-=======
-				<th>Subject</th>
-				<th>Date line</th>
-				<th>Title</th>
->>>>>>> e7452111d69184818f9bace2168635e364c40662
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -24,20 +18,12 @@
 			<% for(let i=0, len=data.length; i < len; i++) { %>
 				<% let item = data[i] %>
 				<tr>
-<<<<<<< HEAD
 					<td><%= item.title %></td>
 					<td><%= item.subject.name %></td>
 					<td><%= item.topic.title %></td>
 					<td><%= item.grade%></td>
 					<td>
 						<% let moreUrl= '/viewHomework/' + item.id %>
-=======
-					<td><%= item.subject.name %></td>
-					<td><%= item.endDate %></td>
-					<td><%= item.title %></td>
-					<td>
-						<% let moreUrl= '/homework/' + item.id %>
->>>>>>> e7452111d69184818f9bace2168635e364c40662
 						<a href="<%= moreUrl %>">Details</a>
 					</td>
 			<% }; %>
