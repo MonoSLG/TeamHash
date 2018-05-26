@@ -1,0 +1,122 @@
+<div class="col-md-6 col-md-offset-3">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>
+                <b>
+                    <%=user.name%>
+                        <%=user.lastName%>
+                </b>
+            </h2>
+        </div>
+    </div>
+    <div class="col-md-offset-4">
+        <div>
+            <button class="btn btn-primary col-md-1 " onclick="addHomework()">+</button>
+        </div>
+
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3" style="text-align: center">
+                <p>Cursos</p>
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                <p>Tareas</p>
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                <p>Fecha Inicio</p>
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                <p>Fecha Fin</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <form id="login-form" action="/gen_Homework/assign" method="post">
+        <div id="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <select name="course" id="course" class="form-control">
+                            <% cou.forEach(function(item) { %>
+                                <option value="">
+                                    <%= item.name %>
+                                </option>
+                                <% }); %>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="homework" id="homework" class="form-control">
+                            <% hom.forEach(function(item) { %>
+                                <option value="">
+                                    <%= item.title %>
+                                </option>
+                                <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input class="  form-control" type="date">
+                    </div>
+                    <div class="col-md-3">
+                        <input class="  form-control" type="date">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="col-md-offset-3">
+            <button type="submit" class="btn btn-primary">Asignar</button>
+        </div>
+
+
+    </form>
+
+
+
+
+
+    <script>
+        function addHomework() {
+
+            $('#content').append('<br>' + '   <div class="row">' + '<div class="col-md-12">' +
+                '<div class="col-md-3">' +
+                '<select name="course" id="course" class="form-control">' +
+                '<% cou.forEach(function(item) { %>' +
+                '<option value="">' +
+                '<%= item.name %>' +
+                '</option>' +
+                '<% }); %>' +
+                '</select>' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<select name="homework" id="homework" class="form-control">' +
+                '<% hom.forEach(function(item) { %>' +
+                '<option value="">' +
+                '<%= item.title %>' +
+                '</option>' +
+                '<% }); %>' +
+                '</select>' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<input class="form-control" type="date">' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                '<input class="form-control" type="date">' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+
+        }
+
+    </script>
+
+</div>

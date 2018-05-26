@@ -80,10 +80,17 @@ module.exports.routes = {
   '/editSubject/:id':'AppController.editSubject',
   //-------------------------------
   //
+<<<<<<< HEAD
+  '/newHomework': 'AppController.newHomework',
+  '/assignHomework': 'AppController.assignHomework'
+ // '/listSubjects': 'AppController.listSubjects',
+  //'/editSubject/:id':'AppController.editSubject',
+=======
   '/listHomeworks': 'AppController.listHomeworks',
   '/homework/:id':'AppController.viewHomework'  
   //-------------------------------
   //
+>>>>>>> ff46c65191565c3b9a6ecc76803b9d392115f0f6
 
 
 
