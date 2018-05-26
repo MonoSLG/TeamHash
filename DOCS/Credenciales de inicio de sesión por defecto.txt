@@ -1,4 +1,0 @@
-Credenciales de inicio de sesión por defecto del usuario súper administrador
-
-UserName: superUser
-Password: user951
