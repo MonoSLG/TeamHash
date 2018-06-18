@@ -1,18 +1,18 @@
 <div class="col-md-6">
 	<div class="row">
 		<div class="col-md-6">
-			<h2>Edit Topic</h2>
+			<h2>Editar tema</h2>
 		</div>
 	</div>
 	<form id="login-form" action="/gen_topic/update/<%= data.id %>" method="post">
 		<div class="form-group">
-			<input type="text" name="title" id="title" class="form-control" placeholder="Title" value="<%= data.title %>">
+			<input type="text" name="title" id="title" class="form-control" placeholder="Título" value="<%= data.title %>">
 		</div>
 		<div class="form-group">
 			<textarea name="description" id="description" cols="30" rows="6" class="form-control" placeholder="Descripción"><%= data.description %></textarea>
 		</div>
 		<div class="form-group">
-			<label for="subject">Subject</label>
+			<label for="subject">Materia</label>
 			<select class="form-control" id="subject" name="subject">
 				<% subjects.forEach(function(item) { %>
 					<option value="<%= item.id %>"> <%= item.name %> - <%= item.code %></option>
@@ -20,6 +20,6 @@
 			</select>
 		</div>
 		<br>
-		<button type="submit" class="btn btn-primary">Update</button>
+		<button type="submit" class="btn btn-primary">Actualizar</button>
 	</form>
 </div>
