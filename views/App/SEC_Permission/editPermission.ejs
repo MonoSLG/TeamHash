@@ -1,17 +1,17 @@
 <div class="col-md-6">
 	<div class="row">
 		<div class="col-md-6">
-			<h2>Edit Permission</h2>
+			<h2>Editar permiso</h2>
 		</div>
 	</div>
 	<form id="form" action="/sec_permission/update/<%= data.id %>" method="post">
 		<div class="form-group">
-			<input type="text" name="name" id="name" class="form-control" placeholder="Name" value="<%= data.name %>">
+			<input type="text" name="name" id="name" class="form-control" placeholder="Nombre" value="<%= data.name %>">
 		</div>
 		<div class="form-group">
-			<input type="text" name="description" id="description" class="form-control" placeholder="Description" value="<%= data.description %>">
+			<input type="text" name="description" id="description" class="form-control" placeholder="Descripción" value="<%= data.description %>">
 		</div>
-		<button type="submit" class="btn btn-primary">Update</button>
+		<button type="submit" class="btn btn-primary">Actualizar</button>
 	</form>
 </div>
 
