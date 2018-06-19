@@ -2,13 +2,23 @@
 module.exports = {
 	add: async function(req, res, next){
 		try {
-			const u = {
+			const user = {
+				userName: req.param('userName'),
+				password: req.param('password'),
 				name: req.param('name'),
 				lastName: req.param('lastName'),
 				phone: req.param('phone'),
 				email: req.param('email'),
+				roles: [await SEC_Role.findOne({name: 'Teacher'})]
 			};
-			let data = await GEN_Teacher.create(u);
+			const teacher = {
+				name: req.param('name'),
+				lastName: req.param('lastName'),
+				phone: req.param('phone'),
+				email: req.param('email'),
+				user: user
+			};
+			let data = await GEN_Teacher.create(teacher);
 			if(data){
 				SEC_FlashService.success(req, 'Teacher Created Successfully!');
 				return res.redirect('/listTeachers');
