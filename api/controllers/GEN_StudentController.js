@@ -2,6 +2,11 @@
 module.exports = {
 	add: async function(req, res, next){
 		try {
+			let rol = await SEC_Role.findOne({name: 'Student'});
+			if(!rol){
+				await SEC_FlashService.error(req, 'No se encuentra el rol "Student", Por favor crearlo!');
+				return res.redirect('/newStudent');
+			}
 			const user = {
 				userName: req.param('userName'),
 				password: req.param('password'),
@@ -9,7 +14,7 @@ module.exports = {
 				lastName: req.param('lastName'),
 				phone: req.param('phone'),
 				email: req.param('email'),
-				roles: [await SEC_Role.findOne({name: 'Student'})]
+				roles: [rol]
 			};
 			const student = {
 				name: req.param('name'),
