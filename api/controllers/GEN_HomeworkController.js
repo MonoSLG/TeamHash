@@ -1,4 +1,24 @@
 module.exports = {
+	get: async function(req, res, next){
+		try {
+			let grade = req.param('grade');
+			let data = [];
+			if(!grade){
+				data = await GEN_Homework.find().populate('topic');
+			}else{
+				data = await GEN_Homework.find({grade: grade}).populate('topic');
+			}
+			for (let i=0; i<data.length; i++){
+				const item = data[i]
+				const subject = await GEN_Subject.findOne(item.topic.subject);
+				data[i]['subject'] = subject;
+			}
+			return res.json(data);
+		}catch (err){
+			await SEC_FlashService.error(req, err.message);
+			return res.redirect('/listHomeworks');
+		}
+	},
 	create: async function (req, res, next) {
 		try {
 			const homework_temp = {
@@ -27,6 +47,20 @@ module.exports = {
 				startDate: req.param('startDate'),
 				endDate: req.param('endDate'),
 			};
+			let date1 = new Date(dataTemp.startDate);
+			let date2 = new Date(dataTemp.endDate);
+			let today = new Date();
+
+			if(date1 > date2){
+				await SEC_FlashService.error(req, 'La fecha de inicio no puede ser mayor a la de entrega');
+				return res.redirect('/assignHomework');
+			}
+
+			if(date1 < today || date2 < today){
+				await SEC_FlashService.error(req, 'No puedes asignar tareas a fechas pasadas!');
+				return res.redirect('/assignHomework');
+			}
+
 			let data = await GEN_CourseHomework.create(dataTemp);
 			if (data) {
 				SEC_FlashService.success(req, 'Homework Assigned Successfully!');
