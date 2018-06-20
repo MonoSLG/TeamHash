@@ -1,29 +1,29 @@
 <div class="col-md-6">
 	<div class="row">
 		<div class="col-md-6">
-			<h2>Edit Student</h2>
+			<h2>Editar estudiante</h2>
 		</div>
 	</div>
 	<form id="form" action="/gen_student/update/<%= data.id %>" method="post">
 		<div class="form-group">
-			<input type="text" name="name" id="name" class="form-control" placeholder="Name" value="<%= data.name %>">
+			<input type="text" name="name" id="name" class="form-control" placeholder="Nombre" value="<%= data.name %>">
 		</div>
 		<div class="form-group">
-			<input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name" value="<%= data.lastName %>">
+			<input type="text" name="lastName" id="lastName" class="form-control" placeholder="Apellido" value="<%= data.lastName %>">
 		</div>
 		<div class="form-group">
-			<input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" value="<%= data.phone %>">
+			<input type="text" name="phone" id="phone" class="form-control" placeholder="Teléfono" value="<%= data.phone %>">
 		</div>
 		<div class="form-group">
-			<input type="text" name="email" id="email" class="form-control" placeholder="Email" value="<%= data.email %>">
+			<input type="text" name="email" id="email" class="form-control" placeholder="Correo" value="<%= data.email %>">
 		</div>
 		<div class="form-group">
-			<input type="text" name="document" id="document" class="form-control" placeholder="Document" value="<%= data.document %>">
+			<input type="text" name="document" id="document" class="form-control" placeholder="Documento" value="<%= data.document %>">
 		</div>
 		<div class="form-group">
-			<input type="text" name="address" id="address" class="form-control" placeholder="Address" value="<%= data.address %>">
+			<input type="text" name="address" id="address" class="form-control" placeholder="Dirección" value="<%= data.address %>">
 		</div>
-		<button type="submit" class="btn btn-primary">Update</button>
+		<button type="submit" class="btn btn-primary">Actualizar</button>
 	</form>
 </div>
 

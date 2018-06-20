@@ -120,7 +120,10 @@ module.exports = {
 	newHomework: async function (req, res) {
 		try {
 			const subjects = await GEN_Subject.find();
-			const topics = await GEN_Topic.find();
+			let topics = [];
+			if(subjects.length > 0){
+				topics = await GEN_Topic.find({subject: subjects[0].id});
+			}
 			const courses = await GEN_Course.find();
 			return res.view('App/GEN_Homework/newHomework',
 				{
@@ -136,11 +139,19 @@ module.exports = {
 	},
 	assignHomework: async function (req, res) {
 		try {
-			const coures = await GEN_Course.find();
-			const homeworks = await GEN_Homework.find();
+			const courses = await GEN_Course.find();
+			let homeworks = [];
+			if(courses.length > 0){
+				homeworks = await GEN_Homework.find({grade: courses[0].grade}).populate('topic');
+				for (let i=0; i<homeworks.length; i++){
+					const item = homeworks[i]
+					const subject = await GEN_Subject.findOne(item.topic.subject);
+					homeworks[i]['subject'] = subject;
+				}
+			}
 			return res.view('App/GEN_Homework/assignHomework',
 				{
-					cou: coures,
+					cou: courses,
 					hom: homeworks
 				}
 			);
@@ -159,7 +170,34 @@ module.exports = {
 		return res.view('App/GEN_Homework/listHomeworks', {data: Homeworks})
 	},
 	listAssignedHomeworks: async function(req, res){
-		let data = await GEN_CourseHomework.find().populateAll();
+		const isAStudent = await SEC_UserService.userInSessionIsAStudent(req);
+		let data = []
+		let grade = req.param('grade');
+		let letter = req.param('letter');
+
+		if(!grade){
+			grade = '3';
+		}
+		if(!letter){
+			letter = 'B';
+		}
+
+		if(isAStudent){
+			let course = await GEN_Course.findOne({grade: grade, letter: letter});
+			if(course){
+				data = await GEN_CourseHomework.find({course: course.id}).sort({endDate: 'ASC' }).populateAll();
+			}
+		}else{
+			data = await GEN_CourseHomework.find().sort({endDate: 'ASC' }).populateAll();
+		}
+
+		for (let i=0; i<data.length; i++){
+			let homework = data[i].homework;
+			homework = await GEN_Homework.findOne(homework.id).populate('topic');
+			const subject = await GEN_Subject.findOne(homework.topic.subject);
+			homework['subject'] = subject;
+			data[i].homework = homework;
+		}
 		return res.view('App/GEN_Homework/listAssignedHomeworks', {data: data})
 	},
 	viewHomework: async function(req, res){

@@ -1,29 +1,40 @@
 <div class="col-md-6">
 	<div class="row">
 		<div class="col-md-6">
-			<h2>New Student</h2>
+			<h2>Nuevo estudiante</h2>
 		</div>
 	</div>
 	<form id="login-form" action="/gen_student/add" method="post">
 		<div class="form-group">
-			<input type="text" name="name" id="name" class="form-control" placeholder="Name">
+			<input type="text" name="name" id="name" class="form-control" placeholder="Nombre">
 		</div>
 		<div class="form-group">
-			<input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
-		</div>
-		<div class="form-group">
-			<input type="text" name="phone" id="phone" class="form-control" placeholder="Phone">
-		</div>
-		<div class="form-group">
-			<input type="email" name="email" id="email" class="form-control" placeholder="Email">
-		</div>
-		<div class="form-group">
-			<input type="text" name="document" id="document" class="form-control" placeholder="Document">
-		</div>
-		<div class="form-group">
-			<input type="text" name="address" id="address" class="form-control" placeholder="Address">
+			<input type="text" name="lastName" id="lastName" class="form-control" placeholder="Apellido">
 		</div>
 		<br>
-		<button type="submit" class="btn btn-primary">Save</button>
+		<div class="form-group">
+			<input type="text" name="userName" id="userName" class="form-control" placeholder="Nombre de usuario" required>
+		</div>
+		<div class="form-group">
+			<input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" autocomplete="off" required>
+		</div>
+		<br>
+		<div class="form-group">
+			<input type="text" name="phone" id="phone" class="form-control" placeholder="Teléfono">
+		</div>
+		<div class="form-group">
+			<input type="email" name="email" id="email" class="form-control" placeholder="Correo">
+		</div>
+		<div class="form-group">
+			<input type="text" name="document" id="document" class="form-control" placeholder="Documento">
+		</div>
+		<div class="form-group">
+			<input type="text" name="address" id="address" class="form-control" placeholder="Dirección">
+		</div>
+		<br>
+		<button type="submit" class="btn btn-primary">Guardar</button>
+		<br>
+		<br>
+		<br>
 	</form>
 </div>

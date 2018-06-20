@@ -29,6 +29,9 @@ module.exports = {
 			via: 'course',
 			through: 'gen_studentcourse'
 		},
+		user: {
+			model: 'sec_user'
+		},
 		toJSON: function() {
 			let obj = this.toObject();
 			delete obj.createdAt;
