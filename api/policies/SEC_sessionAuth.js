@@ -28,24 +28,37 @@
 
 async function loadReminders(req, res){
 	const isAStudent = await SEC_UserService.userInSessionIsAStudent(req);
+	const isATeacher = await SEC_UserService.userInSessionIsATeacher(req);
 	let reminders = []
 	let grade = req.param('grade');
 	let letter = req.param('letter');
 
 	if(!grade){
-		grade = '3';
+		if(isAStudent)
+			grade = '3';
+		else
+			grade = '1';
 	}
 	if(!letter){
-		letter = 'B';
+		if(isAStudent)
+			letter = 'A';
+		else
+			letter = 'A';
 	}
 
-	if(isAStudent){
+	if(isAStudent || isATeacher){
 		let course = await GEN_Course.findOne({grade: grade, letter: letter});
 		if(course){
 			reminders = await GEN_CourseHomework.find({course: course.id}).sort({endDate: 'ASC' }).populateAll();
 		}
 	}else{
 		reminders = await GEN_CourseHomework.find().sort({endDate: 'ASC' }).populateAll();
+	}
+
+	for(let i=0; i<reminders.length; i++){
+		let courseHomework = reminders[i];
+		const topic = await GEN_Topic.findOne(courseHomework.homework.topic).populate('subject');
+		reminders[i].homework.topic = topic;
 	}
 
 	res.locals.reminders = reminders;

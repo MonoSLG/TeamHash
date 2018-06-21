@@ -26,7 +26,7 @@
 					<% let editURL= '/editCourse/' + item.id %>
 					<a style="color:green" href="<%= editURL %>">Editar</a>
 					&bull;
-					<a style="color:red" href="#" onclick="remove('<%= item.id %>', '<%= item.name %>')">Eliminar</a>
+					<a style="color:red" href="#" onclick="remove('<%= item.id %>', '<%= item.grade %>'+' <%= item.letter %>')">Eliminar</a>
 				</td>
 		<% }; %>
 	</tbody>

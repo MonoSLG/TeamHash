@@ -70,7 +70,7 @@
         <button type="button" class="btn btn-primary" onclick="openNav()">
           <span class="fa fa-info" style="transform: scale(1.5, 1.5);"></span> <span class="badge badge-light"><%= reminders.length %></span>
         </button>
-      </div>
+    </div>
 
 
     <div class="container">
@@ -167,11 +167,15 @@
       });
 
       function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
+          document.getElementById("mySidenav").style.width = "330px";
       }
       function closeNav() {
           document.getElementById("mySidenav").style.width = "0";
       }
+
+
+      
+
     </script>
 
   </footer>
@@ -185,7 +189,12 @@
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
   <% reminders.forEach(function(item) { %>
-    <a href="/viewHomework/<%= item.homework.id %>"><%= item.homework.title %> - <%= item.endDate %></a>
+    <a href="/viewHomework?homeworkId=<%= item.homework.id %>&courseId=<%= item.course.id %>">
+      <%= item.homework.topic.subject.name %> - <%= item.homework.title %> - <%= item.endDate %>
+      <% let today = new Date(); %>
+      <% today = today.toISOString().substring(0, 10); %>
+      <h6 style="color:red"><%= datediff(today, item.endDate) %> Días faltantes!</h6>
+    </a>
   <% }); %>
 </div>
 
@@ -199,7 +208,7 @@ body {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     top: 0;
     left: 0;
     background-color: #111;
@@ -233,3 +242,17 @@ body {
   .sidenav a {font-size: 18px;}
 }
 </style>
+
+
+
+<%
+function parseDate(str) {
+  let mdy = str.split('-');
+  return new Date(mdy[0]-1, mdy[1], mdy[2]);
+}
+function datediff(first, second) {
+  first = parseDate(first);
+  second = parseDate(second);
+  return Math.round((second-first)/(1000*60*60*24));
+}
+%>

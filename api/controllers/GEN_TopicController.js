@@ -57,7 +57,7 @@ module.exports = {
 			return res.redirect('/listTopics');
 		}
 		try {
-			await GEN_Course.destroy(id);
+			await GEN_Topic.destroy(id);
 			SEC_FlashService.success(req, 'Topic deleted Successfully!');
 			return res.redirect('/listTopics');
 		}catch (err){

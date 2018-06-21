@@ -161,7 +161,24 @@ module.exports = {
 		}
     },
     listHomeworks: async function(req, res){
-		let Homeworks = await GEN_Homework.find().populate('topic');
+    	const isAStudent = await SEC_UserService.userInSessionIsAStudent(req);
+		const isATeacher = await SEC_UserService.userInSessionIsATeacher(req);
+
+		let grade = req.param('grade');
+		if(!grade){
+			if(isAStudent)
+				grade = '3';
+			else
+				grade = '1';
+		}
+
+		let Homeworks = [];
+
+		if(isAStudent || isATeacher){
+			Homeworks = await GEN_Homework.find({grade: grade}).populate('topic');	
+		}else{
+			Homeworks = await GEN_Homework.find().populate('topic');
+		}
 		for (let i=0; i<Homeworks.length; i++){
 			const item = Homeworks[i]
 			const subject = await GEN_Subject.findOne(item.topic.subject);
@@ -171,18 +188,26 @@ module.exports = {
 	},
 	listAssignedHomeworks: async function(req, res){
 		const isAStudent = await SEC_UserService.userInSessionIsAStudent(req);
+		const isATeacher = await SEC_UserService.userInSessionIsATeacher(req);
+
 		let data = []
 		let grade = req.param('grade');
 		let letter = req.param('letter');
 
 		if(!grade){
-			grade = '3';
+			if(isAStudent)
+				grade = '3';
+			else
+				grade = '1';
 		}
 		if(!letter){
-			letter = 'B';
+			if(isAStudent)
+				letter = 'A';
+			else
+				letter = 'A';
 		}
 
-		if(isAStudent){
+		if(isAStudent || isATeacher){
 			let course = await GEN_Course.findOne({grade: grade, letter: letter});
 			if(course){
 				data = await GEN_CourseHomework.find({course: course.id}).sort({endDate: 'ASC' }).populateAll();
@@ -202,10 +227,11 @@ module.exports = {
 	},
 	viewHomework: async function(req, res){
 		try {
-			const id = req.param('id');
-			let data = await GEN_Homework.findOne(id).populate('topic');
-			const subject = await GEN_Subject.findOne(data.topic.subject);
-			data['subject'] = subject;
+			const courseId = req.param('courseId');
+			const homeworkId = req.param('homeworkId');
+			let data = await GEN_CourseHomework.findOne({course: courseId, homework: homeworkId}).populate('homework');
+			const topic = await GEN_Topic.findOne(data.homework.topic).populate('subject');
+			data.homework.topic = topic;
 			return res.view('App/GEN_Homework/viewHomework', {data: data});
 		}catch (err){
 			await SEC_FlashService.error(req, err.message);

@@ -6,20 +6,20 @@
     </div>
 	<div class="row">
 		<div class="col-md-12">
-            <center><h3><%=data.subject.name%> : <%=data.title%></h3></center>
-            <center><h4><%=data.topic.title%></h4></center>
-            <center><h4>Fecha de entrega : 15/06/2018</h4></center>            
+            <center><h3><%=data.homework.topic.subject.name%> : <%=data.homework.title%></h3></center>
+            <center><h4><%=data.homework.topic.title%></h4></center>
+            <center><h4>Fecha de entrega : <%=data.endDate%></h4></center>            
         </div>          
         </div>      
     </div>
     <div class="row">
         <div class="col-md-12">
             <h4>Logros:</h4>
-            <h3 style="padding-left: 5%"><%=data.achievement%></h3>
+            <h3 style="padding-left: 5%"><%=data.homework.achievement%></h3>
         </div>
         <div class="col-md-12">
             <h4>Descripción:</h4>
-            <h3 style="padding-left: 5%"><%=data.description%></h3>
+            <h3 style="padding-left: 5%"><%=data.homework.description%></h3>
         </div>
         <!--
         <div class="col-md-12">
