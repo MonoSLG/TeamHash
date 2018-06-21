@@ -27,7 +27,7 @@
 					<td><%= item.startDate %></td>
 					<td><%= item.endDate %></td>
 					<td>
-						<% let moreUrl= '/viewHomework/' + item.homework.id %>
+						<% let moreUrl= '/viewHomework?homeworkId=' + item.homework.id + '&courseId=' + item.course.id %>
 						<a href="<%= moreUrl %>">Detalles</a>
 					</td>
 			<% }; %>

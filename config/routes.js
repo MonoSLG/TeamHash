@@ -85,7 +85,7 @@ module.exports.routes = {
   //-------------------------------
   //
   '/newHomework': 'AppController.newHomework',
-  '/viewHomework/:id': 'AppController.viewHomework',
+  '/viewHomework': 'AppController.viewHomework',
   '/listHomeworks': 'AppController.listHomeworks',
   '/listAssignedHomeworks': 'AppController.listAssignedHomeworks',
   '/assignHomework': 'AppController.assignHomework',

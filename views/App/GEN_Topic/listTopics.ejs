@@ -26,7 +26,7 @@
 					<% let editURL= '/editTopic/' + item.id %>
 					<a style="color:green" href="<%= editURL %>">Editar</a>
 					&bull;
-					<a style="color:red" href="#" onclick="remove('<%= item.id %>', '<%= item.name %>')">Eliminar</a>
+					<a style="color:red" href="#" onclick="remove('<%= item.id %>', '<%= item.title %>')">Eliminar</a>
 				</td>
 		<% }; %>
 	</tbody>
@@ -54,7 +54,7 @@
 
 <script>
 	function remove(id, name){
-		$('#linkModalRemove').attr("href", "/gen_course/delete/"+id);
+		$('#linkModalRemove').attr("href", "/gen_topic/delete/"+id);
 		$('#textModel').html("<strong>Name:</strong> " + name);
 		$('#myModal').modal('show')
 	}
