@@ -1,4 +1,19 @@
 module.exports = {
+	get: async function(req, res, next){
+		try {
+			let subjectId = req.param('subjectId');
+			if(!subjectId){
+				let data = await GEN_Topic.find();
+				return res.json(data);
+			}else{
+				let data = await GEN_Topic.find({subject: subjectId});
+				return res.json(data);
+			}
+		}catch (err){
+			await SEC_FlashService.error(req, err.message);
+			return res.redirect('/listSubjects');
+		}
+	},
 	add: async function(req, res, next){
 		try {
 			const u = {
@@ -42,7 +57,7 @@ module.exports = {
 			return res.redirect('/listTopics');
 		}
 		try {
-			await GEN_Course.destroy(id);
+			await GEN_Topic.destroy(id);
 			SEC_FlashService.success(req, 'Topic deleted Successfully!');
 			return res.redirect('/listTopics');
 		}catch (err){
