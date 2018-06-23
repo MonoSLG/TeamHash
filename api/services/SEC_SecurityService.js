@@ -30,18 +30,29 @@ async function loadAllowedMenus(res){
 	let allowedMenus = [];
 
 	for(let i=0, len=data.length; i < len; i++) {
-		if(userInSessionHasPermissionsTo(data[i], arrayUserPermissions)){
+		let menu = data[i];
+		if(userInSessionHasPermissionsTo(menu, arrayUserPermissions)){
 			let sonsToDelete = [];
-			for(let j=0, len2=data[i].sonsMenus.length; j < len2; j++) {
-				let son = await SEC_Menu.findOne(data[i].sonsMenus[j].id).populate('requiredPermissions', {select: 'id'});
+			
+			for(let j=0, len2=menu.sonsMenus.length; j < len2; j++) {
+				let son = await SEC_Menu.findOne(menu.sonsMenus[j].id).populate('requiredPermissions', {select: 'id'});
 				if(!userInSessionHasPermissionsTo(son, arrayUserPermissions)){
-					sonsToDelete.push(j);
+					sonsToDelete.push(son.id);
 				}
 			}
-			for(let j=0, len2=sonsToDelete.length; j < len2; j++) {
-				data[i].sonsMenus.splice(sonsToDelete[j], 1);
+
+			while(sonsToDelete.length > 0){
+				for(let k=0; k<menu.sonsMenus.length;k++){
+					let son = menu.sonsMenus[k];
+					if(sonsToDelete.length > 0 && son.id == sonsToDelete[0]){
+						sonsToDelete.splice(0, 1);
+						menu.sonsMenus.splice(k, 1);
+					}
+				}
 			}
-			allowedMenus.push(data[i]);
+
+
+			allowedMenus.push(menu);
 		}
 	}
 	return allowedMenus;
@@ -78,6 +89,7 @@ function userInSessionHasPermissionsTo(menu, arrayUserPermissions){
 			return false;
 		}
 	};
+	//console.log(menu.id + ' - ' + menu.text)
 	return true;
 }
 

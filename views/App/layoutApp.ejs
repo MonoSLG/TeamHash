@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title><%=typeof title == 'undefined' ? 'New Sails App' : title%></title>
+  <title><%=typeof title == 'undefined' ? 'IS3' : title%></title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
@@ -65,10 +65,18 @@
 
   <header id="header">
 
+    <div class="pull-left">
+        &emsp;
+        <button type="button" class="btn btn-primary" onclick="openNav()">
+          <span class="fa fa-info" style="transform: scale(1.5, 1.5);"></span> <span class="badge badge-light"><%= reminders.length %></span>
+        </button>
+    </div>
+
+
     <div class="container">
 
       <div id="logo" class="pull-left">
-        <h2>Titulo</h2>
+        <h2>StudyBook</h2>
       </div>
 
       <nav id="nav-menu-container">
@@ -90,6 +98,7 @@
               <% } %>
             <% } %>
           <% }); %>
+          <li><a href="/sec_session/logout">Cerrar Sesión</a></li>
 
         </ul>
       </nav><!-- #nav-menu-container -->
@@ -156,9 +165,94 @@
         $("#alertWarning").fadeOut(10000);
         $("#alertSuccess").fadeOut(10000);
       });
+
+      function openNav() {
+          document.getElementById("mySidenav").style.width = "330px";
+      }
+      function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+      }
+
+
+      
+
     </script>
 
   </footer>
 
 </body>
 </html>
+
+
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+  <% reminders.forEach(function(item) { %>
+    <a href="/viewHomework?homeworkId=<%= item.homework.id %>&courseId=<%= item.course.id %>">
+      <%= item.homework.topic.subject.name %> - <%= item.homework.title %> - <%= item.endDate %>
+      <% let today = new Date(); %>
+      <% today = today.toISOString().substring(0, 10); %>
+      <h6 style="color:red"><%= datediff(today, item.endDate) %> Días faltantes!</h6>
+    </a>
+  <% }); %>
+</div>
+
+
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+
+
+
+<%
+function parseDate(str) {
+  let mdy = str.split('-');
+  return new Date(mdy[0]-1, mdy[1], mdy[2]);
+}
+function datediff(first, second) {
+  first = parseDate(first);
+  second = parseDate(second);
+  return Math.round((second-first)/(1000*60*60*24));
+}
+%>

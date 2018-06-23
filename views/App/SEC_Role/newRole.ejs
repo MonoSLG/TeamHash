@@ -1,15 +1,15 @@
 <div class="col-md-6">
 	<div class="row">
 		<div class="col-md-6">
-			<h2>New Role</h2>
+			<h2>Nuevo rol</h2>
 		</div>
 	</div>
 	<form id="login-form" action="/sec_role/add" method="post">
 		<div class="form-group">
-			<input type="text" name="name" id="name" class="form-control" placeholder="Name">
+			<input type="text" name="name" id="name" class="form-control" placeholder="Nombre">
 		</div>
 		<br>
-		<h4>Permissions</h4>
+		<h4>Permisos</h4>
 		<br>
 		<% let i=0 %>
 		<% data.forEach(function(item) { %>
@@ -20,6 +20,6 @@
 			<% i++ %>
 		<% }); %>
 		<br>
-		<button type="submit" class="btn btn-primary">Save</button>
+		<button type="submit" class="btn btn-primary">Guardar</button>
 	</form>
 </div>

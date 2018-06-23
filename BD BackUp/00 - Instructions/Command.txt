@@ -1,3 +1,20 @@
-cd C:\Program Files\MongoDB\Server\3.6\bin
+--------------Restaurar BackUp---------------------
 
-.\mongorestore.exe "C:\Users\Agustin\Desktop\Escritorio\LoginSails\Software III - Project\BD BackUp\dump05-05-2018"
+1) Borrar BD existente anteriormente!
+
+2) Abrir una consola en la carpeta "BD BackUp"
+
+3) Ejecutar el comando
+
+C:\"Program Files"\MongoDB\Server\3.6\bin\mongorestore.exe "dump05-05-2018"
+
+
+
+
+---------------Crear BackUp---------------------
+
+1) Abrir una consola en la carpeta donde se desee crear el backup
+
+2) Ejecutar el comando
+
+C:\"Program Files"\MongoDB\Server\3.6\bin\mongodump.exe

@@ -1,20 +1,20 @@
 <div class="col-md-12">
 	<div class="row">
 		<div class="col-md-6">
-			<h2>List Students</h2>
+			<h2>Listar estudiantes</h2>
 		</div>
 	</div>
 	<table class="table table-striped table-bordered" id="table">
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Name</th>
-				<th>Last Name</th>
-				<th>Phone</th>
-				<th>Email</th>
-				<th>Document</th>
-				<th>Address</th>
-				<th>Actions</th>
+				<th>Nombre</th>
+				<th>Apellido</th>
+				<th>Teléfono</th>
+				<th>Correo</th>
+				<th>Documento</th>
+				<th>Dirección</th>
+				<th>Acciones</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,9 +30,9 @@
 					<td><%= item.address %></td>
 					<td>
 						<% let editURL= '/editStudent/' + item.id %>
-						<a style="color:green" href="<%= editURL %>">Edit</a>
+						<a style="color:green" href="<%= editURL %>">Editar</a>
 						&bull;
-						<a style="color:red" href="#" onclick="remove('<%= item.id %>', '<%= item.name %>')">Remove</a>
+						<a style="color:red" href="#" onclick="remove('<%= item.id %>', '<%= item.name %>')">Eliminar</a>
 					</td>
 			<% }; %>
 		</tbody>
@@ -44,15 +44,15 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				 <button type="button" class="close" data-dismiss="modal">&times;</button>
-				 <h4 class="modal-title">Remove Student</h4>
+				 <h4 class="modal-title">Eliminar estudiante</h4>
 			</div>
 			<div class="modal-body">
-				<p>Are you sure you want to remove the student?</p>
+				<p>¿Está seguro de querer eliminar éste estudiante?</p>
 				<p id="textModel"></p>
 			</div>
 			<div class="modal-footer">
-				<a id="linkModalRemove" class="btn btn-danger" href="#">Remove</a>
-				<button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+				<a id="linkModalRemove" class="btn btn-danger" href="#">Eliminar</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 			</div>
 		</div>
 	</div>
