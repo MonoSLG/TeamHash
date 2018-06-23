@@ -6,6 +6,9 @@
  */
 
 module.exports = {
+	/*
+	*Obtiene la información del usuario actual y la renderiza a una vista para su despliegue
+	*/
 	profile: async function(req, res, next){
 		try {
 			const data = await SEC_User.findOne(req.session.userId);
@@ -15,6 +18,9 @@ module.exports = {
 			return res.redirect('/');
 		}
 	},
+	/*
+	*Retorna el conjunto de ítems del menu principal
+	*/
 	mundo: async function(req, res){
 		try {
 			let data = await SEC_Menu.find().populateAll();
@@ -25,13 +31,22 @@ module.exports = {
 		}
 	},
 	//Teacher controllers
+	/** 
+	* Renderiza la vista para la creación de profesores
+	*/
 	newTeacher: async function(req, res){
 		return res.view('App/GEN_Teacher/newTeacher')
 	},
+	/**
+	 * Renderiza la vista para ver los profesores
+	 */
 	listTeachers: async function(req, res){
 		const teachers = await GEN_Teacher.find();
 		return res.view('App/GEN_Teacher/listTeachers', {data: teachers})
 	},
+	/**
+	 * Renderiza la vista para editar un profesor junto con su información
+	 */
 	editTeacher: async function(req, res, next){
 		try {
 			const id = req.param('id');
@@ -43,13 +58,22 @@ module.exports = {
 		}
 	},
 	//Students controllers
+	/** 
+	* Renderiza la vista para la creación de estudiantes
+	*/
 	newStudent: async function(req, res){
 		return res.view('App/GEN_Student/newStudent')
 	},
+	/**
+	 * Renderiza la vista para ver los estudiantes
+	 */
 	listStudents: async function(req, res){
 		const Students = await GEN_Student.find();
 		return res.view('App/GEN_Student/listStudents', {data: Students})
 	},
+	/**
+	 * Renderiza la vista para editar un estudiante junto con su información
+	 */
 	editStudent: async function(req, res, next){
 		try {
 			const id = req.param('id');
@@ -61,13 +85,22 @@ module.exports = {
 		}
 	},
 	//Course controllers
+	/** 
+	* Renderiza la vista para la creación de cursos
+	*/
 	newCourse: async function(req, res){
 		return res.view('App/GEN_Course/newCourse')
 	},
+	/**
+	 * Renderiza la vista para ver los cursos
+	 */
 	listCourses: async function(req, res){
 		const Courses = await GEN_Course.find();
 		return res.view('App/GEN_Course/listCourses', {data: Courses})
 	},
+	/**
+	 * Renderiza la vista para editar un curso junto con su información
+	 */
 	editCourse: async function(req, res, next){
 		try {
 			const id = req.param('id');
@@ -79,13 +112,22 @@ module.exports = {
 		}
 	},
 	//Subject controllers
+	/** 
+	* Renderiza la vista para la creación de materias
+	*/
 	newSubject: async function(req, res){
 		return res.view('App/GEN_Subject/newSubject')
 	},
+	/**
+	 * Renderiza la vista para ver las materias
+	 */
 	listSubjects: async function(req, res){
 		const Subjects = await GEN_Subject.find();
 		return res.view('App/GEN_Subject/listSubjects', {data: Subjects})
 	},
+	/**
+	 * Renderiza la vista para editar una materia junto con su información
+	 */
 	editSubject: async function(req, res, next){
 		try {
 			const id = req.param('id');
@@ -97,14 +139,23 @@ module.exports = {
 		}
 	},
 	//Topic controllers
+	/** 
+	* Renderiza la vista para la creación de temas
+	*/
 	newTopic: async function(req, res){
 		const subjects = await GEN_Subject.find();
 		return res.view('App/GEN_Topic/newTopic', {data: subjects});
 	},
+	/**
+	 * Renderiza la vista para ver los temas
+	 */
 	listTopics: async function(req, res){
 		const topics = await GEN_Topic.find().populate('subject');
 		return res.view('App/GEN_Topic/listTopics', {data: topics})
 	},
+	/**
+	 * Renderiza la vista para editar un tema junto con su información
+	 */
 	editTopic: async function(req, res, next){
 		try {
 			const id = req.param('id');
@@ -117,6 +168,9 @@ module.exports = {
 		}
 	},
 	//Homework controllers
+	/** 
+	* Renderiza la vista para la creación de tareas
+	*/
 	newHomework: async function (req, res) {
 		try {
 			const subjects = await GEN_Subject.find();
@@ -137,6 +191,10 @@ module.exports = {
 			return res.redirect('/');
 		}
 	},
+	/**
+	 * Obtiene la información necesaria para la asignación de tareas, además de retornar la
+	 * vista con su información
+	 */
 	assignHomework: async function (req, res) {
 		try {
 			const courses = await GEN_Course.find();
@@ -149,28 +207,20 @@ module.exports = {
 					homeworks[i]['subject'] = subject;
 				}
 			}
-			return res.view('App/GEN_Homework/assignHomework',
-				{
-					cou: courses,
-					hom: homeworks
-				}
-			);
+			return res.view('App/GEN_Homework/assignHomework',{cou: courses,hom: homeworks});
 		} catch (err) {
 			await SEC_FlashService.error(req, err.message);
 			return res.redirect('/');
 		}
-    },
+	},
+	/**
+	 * Lista las tareas por grado si el usuario es un estudiante
+	 */
     listHomeworks: async function(req, res){
     	const isAStudent = await SEC_UserService.userInSessionIsAStudent(req);
 		const isATeacher = await SEC_UserService.userInSessionIsATeacher(req);
 
-		let grade = req.param('grade');
-		if(!grade){
-			if(isAStudent)
-				grade = '3';
-			else
-				grade = '1';
-		}
+		let grade = this.validarGrade(req.param('grade'),isAStudent);
 
 		let Homeworks = [];
 
@@ -186,27 +236,48 @@ module.exports = {
 		}
 		return res.view('App/GEN_Homework/listHomeworks', {data: Homeworks})
 	},
-	listAssignedHomeworks: async function(req, res){
-		const isAStudent = await SEC_UserService.userInSessionIsAStudent(req);
-		const isATeacher = await SEC_UserService.userInSessionIsATeacher(req);
 
-		let data = []
-		let grade = req.param('grade');
-		let letter = req.param('letter');
-
+	/**
+	 * Valida dependiendo si el usuario es un estudiante el grado pasado por parametro
+	 * @param {Grado a evaluar} grade 
+	 * @param {Indicativo de estudiante} isAStudent 
+	 */
+	validarGrade(grade, isAStudent){
 		if(!grade){
 			if(isAStudent)
 				grade = '3';
 			else
 				grade = '1';
 		}
+		return grade;
+
+	},
+	/**
+	 * Valida dependiendo si el usuario es un estudiante la letra del grado pasado por parametro
+	 * @param {Letra a evaluar} grade 
+	 * @param {Indicativo de estudiante} isAStudent 
+	 */
+	validarLetter(letter,isAStudent){
 		if(!letter){
 			if(isAStudent)
 				letter = 'A';
 			else
 				letter = 'A';
 		}
+		return letter;
+	},
+	/**
+	 * Obtiene las tareas asignadas a un curso de forma ascendente y retorna la información a la vista
+	 * correspondiente para visualizarlas
+	 */
+	listAssignedHomeworks: async function(req, res){
+		const isAStudent = await SEC_UserService.userInSessionIsAStudent(req);
+		const isATeacher = await SEC_UserService.userInSessionIsATeacher(req);
 
+		let data = []
+		let grade = this.validarGrade(req.param('grade'),isAStudent);
+		let letter = this.validarLetter(req.param('letter'),isAStudent);
+	
 		if(isAStudent || isATeacher){
 			let course = await GEN_Course.findOne({grade: grade, letter: letter});
 			if(course){
@@ -225,6 +296,9 @@ module.exports = {
 		}
 		return res.view('App/GEN_Homework/listAssignedHomeworks', {data: data})
 	},
+	/**
+	 * Permite consultar la información de una tarea y la muestra en su vista correspondiente
+	 */
 	viewHomework: async function(req, res){
 		try {
 			const courseId = req.param('courseId');
