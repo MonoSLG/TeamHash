@@ -90,7 +90,8 @@ module.exports.routes = {
   '/listAssignedHomeworks': 'AppController.listAssignedHomeworks',
   '/assignHomework': 'AppController.assignHomework',
 
-
+  //QQSM
+  '/QQSMGameConfig': 'AppController.QQSMGameConfig'
 
 
   /***************************************************************************
