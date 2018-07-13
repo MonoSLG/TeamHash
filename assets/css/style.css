@@ -1072,3 +1072,10 @@ body.mobile-nav-active #mobile-nav-toggle {
 #footer .credits a {
   color: #0c2e8a;
 }
+
+.score{
+  width: 100px;
+}
+.help{
+  width: 100px;
+}

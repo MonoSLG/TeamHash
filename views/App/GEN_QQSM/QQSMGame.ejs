@@ -1,0 +1,50 @@
+<div class="col-md-12">
+
+
+    <form id="login-form" action="/gen_QQSM/validate" method="post">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <label for="">Puntuación</label>
+                    <label for="">
+                        <%=score%>
+                    </label>
+                </div>
+                <div class="col-md-6">
+                    <% if (help > 0) { %>
+                        <button class="btn btn-primary">50/50</button>
+                        <% } %>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>
+                    <b>
+                        <%=phase%>.
+                    </b>
+                    <%=data.question%>
+                </h3>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+                <% let i = 0;data.answers.forEach(function(item) { %>
+                    <input type="radio" name="respuesta" value="<%=i %>">
+                    <%= item %>
+                        <br>
+                        <%  i++;});
+                        %>
+            </div>
+
+        </div>
+        <div>
+
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Continuar</button>
+        </div>
+    </form>
+</div>

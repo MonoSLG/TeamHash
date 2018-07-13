@@ -1,0 +1,25 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>¿Cuál materia desea que se le evalúe?</h2>
+        </div>
+    </div>
+
+    <form id="login-form" action="/gen_QQSM/init" method="post">
+        <div class="form-group">
+            <label for="subject">Curso</label>
+            <select name="subject" id="subject" class="form-control" required>
+                <% data.forEach(function(item) { %>
+                    <option value=<%=item.id%> >
+                        <%= item.name %>
+                    </option>
+                <% }); %>
+            </select>
+        </div>
+        
+        <br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Iniciar</button>
+        </div>
+    </form>
+</div>
