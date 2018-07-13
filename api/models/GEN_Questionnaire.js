@@ -1,13 +1,21 @@
 
 module.exports = {
 	attributes: {
-		actualQuestion: {
+		student: {
 			type: 'string',
 			required: true
 		},
 		questions: {
-			collection: 'gen_question',
-			via: 'question'
+			type: 'Array',
+		},
+		date: {
+			type: 'string',
+			required: true
+		},
+		score: {
+			type: 'string',
+			required: true
+
 		},
 		toJSON: function () {
 			let obj = this.toObject();

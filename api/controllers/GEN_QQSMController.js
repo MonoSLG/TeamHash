@@ -4,17 +4,66 @@ module.exports = {
 	score: 0,
 	phase: 1,
 	grade: 7,
+	correctAnswer: 0,
 
+	/**
+	 * Elije una pregunta al azar del conjunto de preguntas pasadas por parámetro
+	 * de una fase específica
+	 * @param {Conjunto de preguntas de una etapa del cuestionario} question 
+	 */
+	getRandomQuestion(question) {
+		if (question.length > 0) {
+			let pos = Math.round(Math.random() * question.length);
+			if (pos >= question.length) {
+				pos = question.length - 1;
+			}
+			console.log("Posición " + pos);
+			return question[pos];
+		} else {
+			return null;
+		}
+
+	},
+
+	/**
+	 * Determina la siguiente pregunta y la agrega al historial de preguntas
+	 */
+	configureQuestion: async function () {
+		let question = await this.getQuestion();
+		let definitiveQuestion = await this.getRandomQuestion(question);
+
+		console.log("La pregunta definitiva ")
+		console.log(definitiveQuestion)
+		if (definitiveQuestion != null) {
+
+			this.correctAnswer = definitiveQuestion.correctAnswer;
+			this.questionnaire.push({ question: definitiveQuestion.id, state: 0 });
+			return definitiveQuestion;
+		}else{
+
+			return null;
+		}
+	},
+
+	imprimir: async function () {
+		console.log("El estado del cuestionario es ");
+		console.log(this.questionnaire);
+		console.log("La respuesta correcta actual es  " + this.correctAnswer);
+		console.log("La etapa es  " + this.phase);
+	},
+	/**
+	 * Inicializa la primera pregunta del cuestionario
+	 * y renderiza la vista de inicio del juego
+	 */
 	init: async function (req, res, next) {
 		try {
 
-			let question = await this.getQuestion();
+			let definitiveQuestion = await this.configureQuestion();
 
-			this.questionnaire.push({ question: question[0], state: 0 });
 			return res.view(
 				'App/GEN_QQSM/QQSMGame',
 				{
-					data: question[0],
+					data: definitiveQuestion,
 					score: this.score,
 					help: this.help,
 					phase: this.phase
@@ -25,7 +74,9 @@ module.exports = {
 			return res.redirect('/newCourse');
 		}
 	},
-
+	/**
+	 * Obtiene un conjunto de preguntas de la base de datos
+	 */
 	getQuestion: async function () {
 		try {
 			let data = await GEN_Question.find({
@@ -34,43 +85,34 @@ module.exports = {
 					grade: this.grade
 				}
 			});
-			console.log("data");
-			console.log(data);
 			if (data) {
 				return data;
 			} else {
 				return null;
-
 			}
 		} catch (err) {
 			return null;
 		}
 	},
 
-
-
+	/**
+	 * Función encargada de validar la respuesta enviada por parámetro
+	 */
 	validate: async function (req, res) {
 		let respuesta = req.param("respuesta");
 
-		console.log("Datos ____________");
-		console.log(respuesta);
-		console.log("____________");
 		let questionPrev = this.questionnaire[this.phase - 1];
-		let questio
-		console.log(questionPrev);
-		console.log(questionPrev["correctAnswer"]);
-		console.log(questionPrev.question.correctAnswer);
 
-		if (respuesta == questionPrev.question.correctAnswer) {
+		if (respuesta == this.correctAnswer) {
 			this.phase = this.phase + 1;
-			console.log("La nueva fase es " + this.phase);
-			this.score = this.score + this.phase * 1000;
-			let question = await this.getQuestion();
-			console.log("W"+JSON.stringify(question));
-			if (JSON.stringify(question)=='[]') {
+			this.score = this.score + 2000;
+			let question = await this.configureQuestion();
+			console.log("*-* " + question);
+			if (JSON.stringify(question) == "null") {
+				await this.registerQuestionnaire();
 				let copyscore = this.score;
 				let copyHelp = this.help;
-				this.phase=1;
+				this.phase = 1;
 				this.score = 0;
 				this.help = 1;
 				return res.view(
@@ -82,11 +124,11 @@ module.exports = {
 					}
 				);
 			} else {
-				this.questionnaire.push({ question: question[0], state: 0 });
+				this.correctAnswer = question.correctAnswer;
 				return res.view(
 					'App/GEN_QQSM/QQSMGame',
 					{
-						data: question[0],
+						data: question,
 						score: this.score,
 						help: this.help,
 						phase: this.phase
@@ -94,6 +136,8 @@ module.exports = {
 				);
 			}
 		} else {
+			questionPrev.state = 1;
+			await this.registerQuestionnaire();
 			return res.view(
 				'App/GEN_QQSM/QQSMGameResume',
 				{
@@ -104,6 +148,26 @@ module.exports = {
 			);
 
 		}
+	},
+
+	registerQuestionnaire: async function () {
+		let questionnaireAux = {
+			student: "user",
+			questions: this.questionnaire,
+			date: new Date(),
+			score: this.score
+		}
+		this.questionnaire = [];
+		try {
+			let data = await GEN_Questionnaire.create(questionnaireAux);
+			if (data) {
+				SEC_FlashService.success(req, 'Homework Created Successfully!');
+				return res.redirect('/listHomeworks');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+
 	},
 
 	update: async function (req, res, next) {
