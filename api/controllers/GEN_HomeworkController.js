@@ -51,6 +51,14 @@ module.exports = {
 			let date2 = new Date(dataTemp.endDate);
 			let today = new Date();
 
+
+			let courseHomework = await GEN_CourseHomework.findOne({course: dataTemp.course, homework: dataTemp.homework});
+			
+			if(courseHomework){
+				await SEC_FlashService.error(req, 'La tarea ya ha sido asignada a este curso!');
+				return res.redirect('/assignHomework');
+			}
+
 			if(date1 > date2){
 				await SEC_FlashService.error(req, 'La fecha de inicio no puede ser mayor a la de entrega');
 				return res.redirect('/assignHomework');
