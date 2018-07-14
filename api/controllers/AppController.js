@@ -178,7 +178,9 @@ module.exports = {
 			if (subjects.length > 0) {
 				topics = await GEN_Topic.find({ subject: subjects[0].id });
 			}
-			const courses = await GEN_Course.find();
+			let grade = this.validarGrade(false);
+			let letter = this.validarLetter(false);
+			const courses = await GEN_Course.find({grade: grade, letter: letter});
 			return res.view('App/GEN_Homework/newHomework',
 				{
 					courses: courses,
@@ -197,7 +199,11 @@ module.exports = {
 	 */
 	assignHomework: async function (req, res) {
 		try {
-			const courses = await GEN_Course.find();
+
+			let grade = this.validarGrade(false);
+			let letter = this.validarLetter(false);
+			const courses = await GEN_Course.find({grade: grade, letter: letter});
+			
 			let homeworks = [];
 			if (courses.length > 0) {
 				homeworks = await GEN_Homework.find({ grade: courses[0].grade }).populate('topic');
