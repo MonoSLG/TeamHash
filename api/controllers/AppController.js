@@ -316,8 +316,23 @@ module.exports = {
 
 	QQSMGameConfig: async function (req, res) {
 		try {
+			let definitiveSubjects = [];
 			let subjects = await GEN_Subject.find();
-			return res.view('App/GEN_QQSM/configQQSM', { data: subjects });
+
+			for (let i = 0; i < subjects.length; i++) {
+				const subjectTemp = subjects[i];
+				let data = await GEN_Question.find({
+					where: {
+						subject: subjectTemp.id
+					}
+				});
+				if (data.length > 2) {
+					definitiveSubjects.push(subjectTemp);
+				}
+
+			}
+
+			return res.view('App/GEN_QQSM/configQQSM', { data: definitiveSubjects });
 		} catch (err) {
 			await SEC_FlashService.error(req, err.message);
 			return res.redirect('/');
