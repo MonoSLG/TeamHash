@@ -137,7 +137,7 @@ module.exports = {
 			this.score = this.score + this.valueQuestion;
 			let question = await this.configureQuestion();
 			if (JSON.stringify(question) == "null") {
-				await this.registerQuestionnaire();
+				await this.registerQuestionnaire(req.session.userId);
 				let copyscore = this.score;
 				let copyHelp = this.help;
 				this.phase = 1;
@@ -167,7 +167,7 @@ module.exports = {
 			}
 		} else {
 			questionPrev.state = 1;
-			await this.registerQuestionnaire();
+			await this.registerQuestionnaire(req.session.userId);
 			return res.view(
 				'App/GEN_QQSM/QQSMGameResume',
 				{
@@ -180,9 +180,9 @@ module.exports = {
 		}
 	},
 
-	registerQuestionnaire: async function () {
+	registerQuestionnaire: async function (userId) {
 		let questionnaireAux = {
-			student: "user",
+			student: userId,
 			questions: this.questionnaire,
 			date: new Date(),
 			score: this.score
@@ -196,39 +196,6 @@ module.exports = {
 
 	},
 
-	update: async function (req, res, next) {
-		const id = req.param('id');
-		if (!id) {
-			return res.redirect('/listCourses');
-		}
-		try {
-			let data = await GEN_Course.update(id, {
-				grade: req.param('grade'),
-				letter: req.param('letter'),
-				year: req.param('year')
-			});
-			if (data) {
-				SEC_FlashService.success(req, 'Course Updated Successfully!');
-				return res.redirect('/listCourses');
-			}
-		} catch (err) {
-			await SEC_FlashService.error(req, err.message);
-			return res.redirect('/editCourse/' + id);
-		}
-	},
-	delete: async function (req, res) {
-		const id = req.param('id');
-		if (!id) {
-			return res.redirect('/listCourses');
-		}
-		try {
-			await GEN_Course.destroy(id);
-			SEC_FlashService.success(req, 'Course deleted Successfully!');
-			return res.redirect('/listCourses');
-		} catch (err) {
-			await SEC_FlashService.error(req, err.message);
-			return res.redirect('/listCourses');
-		}
-	}
+
 };
 
