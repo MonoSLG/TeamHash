@@ -1,0 +1,75 @@
+<div class="col-md-12">
+    <form action="/gen_QQSM/useHelp">
+        <div class="col-md-6">
+            <% if (help > 0) { %>
+                <button type="submit" class="btn btn-primary">50/50</button>
+                <% } %>
+
+        </div>
+    </form>
+
+
+
+    <form id="login-form" action="/gen_QQSM/validate" method="post">
+        <% if (message.length != 0) { %>
+            <div id="help-banner" class="col-12 ">
+                <div class="icon-header">
+                    <div>
+                        50/50
+                    </div>
+                </div>
+                <div class="info-body">
+                    <div class="body">
+                        <div>
+                            -
+                            <%=message[0]%>
+                        </div>
+                        <div>
+                            -
+                            <%=message[1]%>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <% } %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label for="">Puntuación</label>
+                            <label for="">
+                                <%=score%>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>
+                            <b>
+                                <%=phase%>.
+                            </b>
+                            <%=data.question%>
+                        </h3>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <% let i = 0;data.answers.forEach(function(item) { %>
+                            <input type="radio" name="respuesta" value="<%=i %>" checked>
+                            <%= item %>
+                                <br>
+                                <%  i++;});
+                        %>
+                    </div>
+
+                </div>
+                <div>
+
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Continuar</button>
+                </div>
+    </form>
+</div>

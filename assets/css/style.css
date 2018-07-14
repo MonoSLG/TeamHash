@@ -1072,3 +1072,51 @@ body.mobile-nav-active #mobile-nav-toggle {
 #footer .credits a {
   color: #0c2e8a;
 }
+
+
+.icon-header{
+  background-color: forestgreen;
+  color: forestgreen;
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+  padding-left: 10px;
+  padding-top: 10px;
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+}
+
+ .icon-header div{
+  background-color: white;
+  color: forestgreen;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 16px; 
+}
+.info-body{
+  margin-left: 40px;
+  padding-top: 10px;
+  height: 80px;
+
+}
+.info-body .body {
+  color: rgb(17, 104, 9);
+  background-color: rgb(187, 252, 161);
+  border-radius: 0px 10px 10px 0px;
+
+
+  height: 60px;
+  padding-left: 60px;
+}
+.body div{
+  
+  height: 30px;
+}
+#help-banner{
+  margin-bottom: 15px;
+  height: 80px;
+}
