@@ -1,8 +1,39 @@
 <div class="col-md-12">
+    <form action="/gen_QQSM/useHelp">
+        <div class="col-md-6">
+            <% if (help > 0) { %>
+                <button type="submit" class="btn btn-primary">50/50</button>
+                <% } %>
+
+        </div>
+    </form>
+
 
 
     <form id="login-form" action="/gen_QQSM/validate" method="post">
 
+
+            <% if (message.length != 0) { %>
+                <div id="help-banner" class="col-12 ">
+                    <div class="icon-header">
+                        <div>
+                            50/50
+                        </div>
+                    </div>
+                    <div class="info-body">
+                        <div class="body">
+                            <div>
+                                -
+                                <%=message[0]%>
+                            </div>
+                            <div>-
+                                <%=message[1]%>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <% } %>
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-6">
@@ -11,12 +42,7 @@
                         <%=score%>
                     </label>
                 </div>
-                <div class="col-md-6">
-                    <% if (help > 0) { %>
-                        <button class="btn btn-primary">50/50</button>
-                        <% } %>
 
-                </div>
             </div>
         </div>
         <div class="row">
