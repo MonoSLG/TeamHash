@@ -5,6 +5,9 @@ module.exports = {
 	phase: 1,
 	grade: 7,
 	correctAnswer: 0,
+	subject: "",
+	valueQuestion: 2000,
+	currentQuestion: {},
 
 	/**
 	 * Elije una pregunta al azar del conjunto de preguntas pasadas por parámetro
@@ -13,11 +16,10 @@ module.exports = {
 	 */
 	getRandomQuestion(question) {
 		if (question.length > 0) {
-			let pos = Math.round(Math.random() * question.length);
+			let pos = Math.round(Math.random() * (question.length));
 			if (pos >= question.length) {
 				pos = question.length - 1;
 			}
-			console.log("Posición " + pos);
 			return question[pos];
 		} else {
 			return null;
@@ -38,8 +40,9 @@ module.exports = {
 
 			this.correctAnswer = definitiveQuestion.correctAnswer;
 			this.questionnaire.push({ question: definitiveQuestion.id, state: 0 });
+			this.currentQuestion = definitiveQuestion;
 			return definitiveQuestion;
-		}else{
+		} else {
 
 			return null;
 		}
@@ -57,12 +60,16 @@ module.exports = {
 	 */
 	init: async function (req, res, next) {
 		try {
-
+			this.subject = req.param("subject");
+			this.help = 1;
+			this.score = 0;
+			this.phase=1;
 			let definitiveQuestion = await this.configureQuestion();
 
 			return res.view(
 				'App/GEN_QQSM/QQSMGame',
 				{
+					message: "",
 					data: definitiveQuestion,
 					score: this.score,
 					help: this.help,
@@ -82,7 +89,8 @@ module.exports = {
 			let data = await GEN_Question.find({
 				where: {
 					phase: this.phase,
-					grade: this.grade
+					grade: this.grade,
+					subject: this.subject
 				}
 			});
 			if (data) {
@@ -95,6 +103,31 @@ module.exports = {
 		}
 	},
 
+	useHelp: async function (req, res) {
+		this.valueQuestion = 1000;
+		let pos = Math.round(Math.random() * 3);
+		while (pos == this.correctAnswer) {
+			pos = Math.round(Math.random() * 3);
+		}
+		this.help = 0;
+		let message =[
+			this.currentQuestion.answers[pos] ,
+			this.currentQuestion.answers[this.correctAnswer]
+		];
+			
+
+		return res.view(
+			'App/GEN_QQSM/QQSMGame',
+			{
+				message: message,
+				data: this.currentQuestion,
+				score: this.score,
+				help: this.help,
+				phase: this.phase
+			}
+		);
+	},
+
 	/**
 	 * Función encargada de validar la respuesta enviada por parámetro
 	 */
@@ -105,9 +138,8 @@ module.exports = {
 
 		if (respuesta == this.correctAnswer) {
 			this.phase = this.phase + 1;
-			this.score = this.score + 2000;
+			this.score = this.score + this.valueQuestion;
 			let question = await this.configureQuestion();
-			console.log("*-* " + question);
 			if (JSON.stringify(question) == "null") {
 				await this.registerQuestionnaire();
 				let copyscore = this.score;
@@ -125,9 +157,11 @@ module.exports = {
 				);
 			} else {
 				this.correctAnswer = question.correctAnswer;
+				this.valueQuestion = 2000;
 				return res.view(
 					'App/GEN_QQSM/QQSMGame',
 					{
+						message: "",
 						data: question,
 						score: this.score,
 						help: this.help,
@@ -160,10 +194,6 @@ module.exports = {
 		this.questionnaire = [];
 		try {
 			let data = await GEN_Questionnaire.create(questionnaireAux);
-			if (data) {
-				SEC_FlashService.success(req, 'Homework Created Successfully!');
-				return res.redirect('/listHomeworks');
-			}
 		} catch (error) {
 			console.log(error);
 		}
