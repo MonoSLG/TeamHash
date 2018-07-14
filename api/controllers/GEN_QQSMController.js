@@ -34,8 +34,6 @@ module.exports = {
 		let question = await this.getQuestion();
 		let definitiveQuestion = await this.getRandomQuestion(question);
 
-		console.log("La pregunta definitiva ")
-		console.log(definitiveQuestion)
 		if (definitiveQuestion != null) {
 
 			this.correctAnswer = definitiveQuestion.correctAnswer;
@@ -114,8 +112,6 @@ module.exports = {
 			this.currentQuestion.answers[pos] ,
 			this.currentQuestion.answers[this.correctAnswer]
 		];
-			
-
 		return res.view(
 			'App/GEN_QQSM/QQSMGame',
 			{
